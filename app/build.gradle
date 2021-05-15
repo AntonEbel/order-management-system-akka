@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'com.typesafe.akka', name: 'akka-http_2.13', version: '10.2.4'
+    implementation group: 'com.typesafe.akka', name: 'akka-http-jackson_2.13', version: '10.2.4'
+    implementation group: 'com.typesafe.akka', name: 'akka-actor-typed_2.13', version: '2.6.14'
+    implementation group: 'com.typesafe.akka', name: 'akka-persistence-typed_2.13', version: '2.6.14'
+    implementation group: 'com.typesafe.akka', name: 'akka-serialization-jackson_2.13', version: '2.6.14'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
+
+    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.19.0'
+    testImplementation group: 'com.typesafe.akka', name: 'akka-actor-testkit-typed_2.13', version: '2.6.14'
+    testImplementation group: 'com.typesafe.akka', name: 'akka-persistence-testkit_2.13', version: '2.6.14'
+}
+
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
