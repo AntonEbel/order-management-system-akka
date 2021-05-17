@@ -8,8 +8,9 @@ import akka.actor.typed.javadsl.Behaviors;
 import akka.http.javadsl.Http;
 import akka.http.javadsl.ServerBinding;
 import akka.http.javadsl.server.Route;
-import com.example.order.persistence.Commands;
-import com.example.order.persistence.OrderActor;
+import com.example.order.domain.OrderActor;
+import com.example.order.fulfillment.FulfillmentActor;
+import com.example.order.persistence.PersistenceActor;
 import lombok.extern.slf4j.Slf4j;
 import com.example.order.http.OrderRoutes;
 
@@ -37,11 +38,16 @@ public class App {
 
     public static void main(String[] args) {
         Behavior<NotUsed> rootBehavior = Behaviors.setup(context -> {
-            ActorRef<Commands.Command> orderActor =
-                    context.spawn(OrderActor.create(), "OrderActor");
+            ActorRef<PersistenceActor.PersistenceCommand> orderPersistenceActor =
+                    context.spawn(PersistenceActor.create(), "PersistenceActor");
 
+            ActorRef<FulfillmentActor.Command> fulfillmentActor =
+                    context.spawn(FulfillmentActor.create(), "FulfillmentActor");
 
-            OrderRoutes orderRoutes = new OrderRoutes(context,orderActor);
+            ActorRef<OrderActor.Command> orderActor =
+                    context.spawn(OrderActor.create(orderPersistenceActor, fulfillmentActor), "OrderActor");
+
+            OrderRoutes orderRoutes = new OrderRoutes(context.getSystem(), orderPersistenceActor, orderActor);
             startHttpServer(orderRoutes.userRoutes(), context.getSystem());
 
             return Behaviors.empty();

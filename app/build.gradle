@@ -19,6 +19,8 @@ dependencies {
     implementation group: 'com.typesafe.akka', name: 'akka-actor-typed_2.13', version: '2.6.14'
     implementation group: 'com.typesafe.akka', name: 'akka-persistence-typed_2.13', version: '2.6.14'
     implementation group: 'com.typesafe.akka', name: 'akka-serialization-jackson_2.13', version: '2.6.14'
+    implementation group: 'org.fusesource.leveldbjni', name: 'leveldbjni', version: '1.8'
+    implementation group: 'org.fusesource.leveldbjni', name: 'leveldbjni-all', version: '1.8'
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
@@ -26,8 +28,11 @@ dependencies {
 
     testImplementation group: 'junit', name: 'junit', version: '4.13.2'
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.19.0'
+    testImplementation group: 'pl.pragmatists', name: 'JUnitParams', version: '1.1.1'
     testImplementation group: 'com.typesafe.akka', name: 'akka-actor-testkit-typed_2.13', version: '2.6.14'
     testImplementation group: 'com.typesafe.akka', name: 'akka-persistence-testkit_2.13', version: '2.6.14'
+    testImplementation group: 'com.typesafe.akka', name: 'akka-http-testkit_2.13', version: '10.2.4'
+    testImplementation group: 'com.typesafe.akka', name: 'akka-stream-testkit_2.13', version: '2.6.14'
 }
 
 test {

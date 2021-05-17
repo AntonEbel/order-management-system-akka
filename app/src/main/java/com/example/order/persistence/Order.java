@@ -1,18 +1,16 @@
 package com.example.order.persistence;
 
 import com.example.order.serialization.JsonSerializable;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Map;
 
-@NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+@Data
+@Builder(toBuilder = true)
 public final class Order implements JsonSerializable {
     public String id;
     public Map<String, Integer> items;
     public OrderState state;
+    public FulfillmentResult fulfillmentResult;
 }

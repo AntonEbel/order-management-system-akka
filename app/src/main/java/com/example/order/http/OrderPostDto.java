@@ -5,6 +5,6 @@ import lombok.Data;
 import java.util.Map;
 
 @Data
-public class OrderDto {
+public class OrderPostDto {
     private Map<String, Integer> items;
 }
