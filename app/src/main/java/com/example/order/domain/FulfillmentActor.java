@@ -1,4 +1,4 @@
-package com.example.order.fulfillment;
+package com.example.order.domain;
 
 import akka.actor.typed.ActorRef;
 import akka.actor.typed.Behavior;
@@ -6,12 +6,11 @@ import akka.actor.typed.javadsl.AbstractBehavior;
 import akka.actor.typed.javadsl.ActorContext;
 import akka.actor.typed.javadsl.Behaviors;
 import akka.actor.typed.javadsl.Receive;
-import com.example.order.domain.OrderActor;
 import lombok.AllArgsConstructor;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import static com.example.order.fulfillment.FulfillmentActor.Command;
+import static com.example.order.domain.FulfillmentActor.Command;
 import static com.example.order.persistence.FulfillmentResult.FAILURE;
 import static com.example.order.persistence.FulfillmentResult.SUCCESS;
 

@@ -9,7 +9,7 @@ import akka.http.javadsl.Http;
 import akka.http.javadsl.ServerBinding;
 import akka.http.javadsl.server.Route;
 import com.example.order.domain.OrderActor;
-import com.example.order.fulfillment.FulfillmentActor;
+import com.example.order.domain.FulfillmentActor;
 import com.example.order.persistence.PersistenceActor;
 import lombok.extern.slf4j.Slf4j;
 import com.example.order.http.OrderRoutes;

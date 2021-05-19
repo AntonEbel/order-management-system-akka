@@ -5,7 +5,6 @@ import akka.actor.typed.Behavior;
 import akka.actor.typed.Scheduler;
 import akka.actor.typed.javadsl.*;
 import akka.pattern.StatusReply;
-import com.example.order.fulfillment.FulfillmentActor;
 import com.example.order.persistence.FulfillmentResult;
 import com.example.order.persistence.Order;
 import com.example.order.persistence.OrderState;

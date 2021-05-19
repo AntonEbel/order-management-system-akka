@@ -33,6 +33,9 @@ dependencies {
     testImplementation group: 'com.typesafe.akka', name: 'akka-persistence-testkit_2.13', version: '2.6.14'
     testImplementation group: 'com.typesafe.akka', name: 'akka-http-testkit_2.13', version: '10.2.4'
     testImplementation group: 'com.typesafe.akka', name: 'akka-stream-testkit_2.13', version: '2.6.14'
+
+    testCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
+    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
 }
 
 test {

@@ -9,19 +9,21 @@ import akka.http.javadsl.testkit.JUnitRouteTest;
 import akka.http.javadsl.testkit.TestRoute;
 import akka.persistence.testkit.javadsl.EventSourcedBehaviorTestKit;
 import com.example.order.domain.OrderActor;
-import com.example.order.fulfillment.FulfillmentActor;
+import com.example.order.domain.FulfillmentActor;
 import com.example.order.persistence.PersistenceActor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.typesafe.config.ConfigFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Slf4j
 public class OrderRoutesShould extends JUnitRouteTest {
 
     public static final TestKitJunitResource testKit = new TestKitJunitResource(ConfigFactory.parseString(
@@ -48,7 +50,7 @@ public class OrderRoutesShould extends JUnitRouteTest {
     }
 
     @Test
-    public void create_and_change_payment_state() throws JsonProcessingException {
+    public void create_and_change_payment_state() throws JsonProcessingException, InterruptedException {
 
         String createdOrder = appRoute.run(HttpRequest.POST("/orders")
                 .withEntity(MediaTypes.APPLICATION_JSON.toContentType(), createOrderJson()))
@@ -56,18 +58,24 @@ public class OrderRoutesShould extends JUnitRouteTest {
                 .assertMediaType("application/json")
                 .entityString();
 
+        log.info("Created Order: {}", createdOrder);
         String id = mapper.readTree(createdOrder).get("id").asText();
 
-        appRoute.run(HttpRequest.PATCH("/orders/" + id)
+        String paidOrder = appRoute.run(HttpRequest.PATCH("/orders/" + id)
                 .withEntity(MediaTypes.APPLICATION_JSON.toContentType(), createOrderStateJson("PAID")))
                 .assertStatusCode(StatusCodes.OK)
-                .assertMediaType("application/json");
+                .assertMediaType("application/json")
+                .entityString();
 
+        log.info("Paid Order: {}", paidOrder);
+        Thread.sleep(500);
+        log.info(createdOrder);
         JsonNode closedOrder = mapper.readTree(appRoute.run(HttpRequest.GET("/orders/" + id))
                 .assertStatusCode(StatusCodes.OK)
                 .assertMediaType("application/json")
                 .entityString());
 
+        log.info("Closed Order: {}", closedOrder);
         assertThat(closedOrder.get("state").asText()).isEqualTo("CLOSED");
         assertThat(closedOrder.has("fulfillmentResult")).isTrue();
         assertThat(closedOrder.has("items")).isTrue();
